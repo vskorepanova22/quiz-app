@@ -1621,14 +1621,12 @@ from flask_socketio import SocketIO, emit
 import time
 import threading
 import os
-import eventlet
-
-# Используем eventlet для лучшей работы WebSockets
-eventlet.monkey_patch()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'quiz_secret_key_2024')
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+
+# Используем threading вместо eventlet для Render
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 # Вопросы для викторины
 questions = [

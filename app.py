@@ -1682,7 +1682,7 @@ class QuizManager:
             self.players = {}
             self.scores = {}
             self.answers = {}
-            print("🎬 Викторина начата!")
+            print("🎬 Викторина от Вероника начата!")
             socketio.emit('quiz_started', broadcast=True)
             self.start_question()
 

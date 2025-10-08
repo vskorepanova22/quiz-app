@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления викториной</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .control-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #startQuiz {
+            background: #2ecc71;
+            color: white;
+        }
+        #startQuiz:hover {
+            background: #27ae60;
+        }
+        #nextQuestion {
+            background: #3498db;
+            color: white;
+        }
+        #nextQuestion:hover {
+            background: #2980b9;
+        }
+        .stats {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status-connected {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .status-disconnected {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <h1>🎮 Панель управления викториной</h1>
+
+        <button id="startQuiz" onclick="startQuiz()">🚀 Начать викторину</button>
+        <button id="nextQuestion" onclick="forceNextQuestion()">⏭️ Следующий вопрос</button>
+    </div>
+
+    <div class="stats">
+        <h3>📊 Статус системы:</h3>
+        <p>Статус подключения: <span id="connectionStatus" class="status-connected">Подключено</span></p>
+        <p>Статус викторины: <span id="quizStatus">Не активна</span></p>
+        <p>Подключенные игроки: <span id="playerCount">0</span></p>
+        <p>Текущий вопрос: <span id="currentQuestion">-</span></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function startQuiz() {
+            socket.emit('start_quiz');
+            document.getElementById('quizStatus').textContent = 'Активна';
+        }
+
+        function forceNextQuestion() {
+            socket.emit('force_next_question');
+        }
+
+        socket.on('connect', function() {
+            document.getElementById('connectionStatus').textContent = 'Подключено';
+            document.getElementById('connectionStatus').className = 'status-connected';
+        });
+
+        socket.on('disconnect', function() {
+            document.getElementById('connectionStatus').textContent = 'Отключено';
+            document.getElementById('connectionStatus').className = 'status-disconnected';
+        });
+
+        socket.on('quiz_finished', function() {
+            document.getElementById('quizStatus').textContent = 'Завершена';
+        });
+    </script>
+</body>
+</html>

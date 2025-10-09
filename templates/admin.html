@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Панель управления викториной</title>
+    <title>Панель управления хакатоном</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -57,22 +57,28 @@
             color: #e74c3c;
             font-weight: bold;
         }
+        .player-count {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #3498db;
+        }
     </style>
 </head>
 <body>
     <div class="control-panel">
-        <h1>🎮 Панель управления викториной</h1>
+        <h1>🎮 Панель управления хакатоном</h1>
 
-        <button id="startQuiz" onclick="startQuiz()">🚀 Начать викторину</button>
+        <button id="startQuiz" onclick="startQuiz()">🚀 Начать хакатон</button>
         <button id="nextQuestion" onclick="forceNextQuestion()">⏭️ Следующий вопрос</button>
     </div>
 
     <div class="stats">
         <h3>📊 Статус системы:</h3>
         <p>Статус подключения: <span id="connectionStatus" class="status-connected">Подключено</span></p>
-        <p>Статус викторины: <span id="quizStatus">Не активна</span></p>
-        <p>Подключенные игроки: <span id="playerCount">0</span></p>
+        <p>Статус хакатона: <span id="quizStatus">Ожидание игроков</span></p>
+        <p>Подключенные игроки: <span id="playerCount" class="player-count">0</span></p>
         <p>Текущий вопрос: <span id="currentQuestion">-</span></p>
+        <p>Время текущего вопроса: <span id="currentTimeLimit">-</span> сек</p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
@@ -81,7 +87,9 @@
 
         function startQuiz() {
             socket.emit('start_quiz');
-            document.getElementById('quizStatus').textContent = 'Активна';
+            document.getElementById('quizStatus').textContent = 'Активен';
+            document.getElementById('startQuiz').disabled = true;
+            document.getElementById('startQuiz').style.background = '#95a5a6';
         }
 
         function forceNextQuestion() {
@@ -99,7 +107,21 @@
         });
 
         socket.on('quiz_finished', function() {
-            document.getElementById('quizStatus').textContent = 'Завершена';
+            document.getElementById('quizStatus').textContent = 'Завершен';
+            document.getElementById('startQuiz').disabled = false;
+            document.getElementById('startQuiz').style.background = '#2ecc71';
+        });
+
+        // Обновление количества игроков
+        socket.on('name_cloud_update', function(data) {
+            document.getElementById('playerCount').textContent = data.players.length;
+        });
+
+        // Обновление информации о текущем вопросе
+        socket.on('new_question', function(data) {
+            document.getElementById('currentQuestion').textContent = data.question_number;
+            document.getElementById('currentTimeLimit').textContent = data.time_limit;
+            document.getElementById('quizStatus').textContent = 'В процессе';
         });
     </script>
 </body>

@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'quiz_secret_key_2024')
 
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
-# Вопросы для викторины с разным временем на ответ
+# Вопросы для Квиза с разным временем на ответ
 questions = [
     {
         'id': 1,
@@ -80,7 +80,7 @@ class QuizManager:
             # self.players = {}
             # self.scores = {}
             self.answers = {} # Очищаем ответы для нового вопроса
-            print("🎬 Хакатон от Вероники начата администратором!")
+            print("🎬 Квиз начат администратором!")
             socketio.emit('quiz_started')
             # Переходим к первому вопросу
             self.current_question_index = 0
@@ -227,7 +227,7 @@ class QuizManager:
 
         socketio.emit('quiz_finished', final_results)
 
-        print("🎉 Викторина завершена!")
+        print("🎉 Квиз завершен!")
         print(f"📈 Участвовало игроков: {len(self.players)}")
         print("🏆 Победители:")
         for i, winner in enumerate(final_results['winners']):
@@ -361,7 +361,7 @@ def handle_answer(data):
 @socketio.on('start_quiz')
 def handle_start():
     quiz_manager.start_quiz()
-    print('🎬 Викторина начата администратором!')
+    print('🎬 Квиз начат администратором!')
 
 
 @socketio.on('force_next_question')

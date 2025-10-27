@@ -507,27 +507,27 @@
                 <div style="background: white; padding: 10px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 5px 0;">
                     <h3 style="color: #2c3e50; margin-bottom: 10px; text-align: center; font-size: 1.1em;">📊 РЕЗУЛЬТАТЫ ВОПРОСА ${data.question_number}</h3>
 
-                    <div class="options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; align-items: stretch;">
-                    <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border-radius: 8px;border: 2px solid #27ae60; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                    <div style="text-align: center; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border-radius: 8px; border: 2px solid #27ae60;">
                             <div style="font-size: 1.5em; font-weight: bold; line-height: 1.1;">${correct}</div>
-                            <div style="font-size: 0.9em;">✅ ПРАВИЛЬНЫХ</div>
+                            <div style="font-size: 0.9em; line-height: 1.1;">✅ ПРАВИЛЬНЫХ</div>
                         </div>
 
-                        <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; border: 2px solid #c0392b;">
+                        <div style="text-align: center; padding: 10px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; border: 2px solid #c0392b;">
                             <div style="font-size: 1.5em; font-weight: bold; line-height: 1.1;">${incorrect}</div>
-                            <div style="font-size: 0.9em;">❌ НЕПРАВИЛЬНЫХ</div>
+                            <div style="font-size: 0.9em; line-height: 1.1;">❌ НЕПРАВИЛЬНЫХ</div>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-                        <div style="text-align: center; padding: 12px; background: #3498db; color: white; border-radius: 8px;">
-                            <div style="font-size: 1.5em; font-weight: bold;">${answered}</div>
-                            <div style="font-size: 0.9em;">👥 ОТВЕТИЛО</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <div style="text-align: center; padding: 10px; background: #3498db; color: white; border-radius: 8px; border: 2px solid #2980b9;">
+                            <div style="font-size: 1.5em; font-weight: bold; line-height: 1.1;"">${answered}</div>
+                            <div style="font-size: 0.9em; line-height: 1.1;">👥 ОТВЕТИЛО</div>
                         </div>
 
-                        <div style="text-align: center; padding: 12px; background: #9b59b6; color: white; border-radius: 8px;">
-                            <div style="font-size: 1.5em; font-weight: bold;">${total}</div>
-                            <div style="font-size: 0.9em;">🎯 ВСЕГО ИГРОКОВ</div>
+                        <div style="text-align: center; padding: 10px; background: #9b59b6; color: white; border-radius: 8px; border: 2px solid #8e44ad;">
+                            <div style="font-size: 1.5em; font-weight: bold; line-height: 1.1;">${total}</div>
+                            <div style="font-size: 0.9em; line-height: 1.1;"">🎯 ВСЕГО ИГРОКОВ</div>
                         </div>
                     </div>
 

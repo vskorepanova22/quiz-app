@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from flask_socketio import SocketIO, emit
 import time
 import threading
@@ -8,9 +8,12 @@ import random
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'quiz_secret_key_2024')
 
+# Добавьте эту настройку для статических файлов
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  # Отключает кэширование для разработки
+
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
-# Вопросы для Квиза с разным временем на ответ
+# Вопросы для викторины с разным временем на ответ
 questions = [
     {
         'id': 1,
@@ -80,7 +83,7 @@ class QuizManager:
             # self.players = {}
             # self.scores = {}
             self.answers = {} # Очищаем ответы для нового вопроса
-            print("🎬 Квиз начат администратором!")
+            print("🎬 Квиз от Вероники начата администратором!")
             socketio.emit('quiz_started')
             # Переходим к первому вопросу
             self.current_question_index = 0
@@ -227,7 +230,7 @@ class QuizManager:
 
         socketio.emit('quiz_finished', final_results)
 
-        print("🎉 Квиз завершен!")
+        print("🎉 Викторина завершена!")
         print(f"📈 Участвовало игроков: {len(self.players)}")
         print("🏆 Победители:")
         for i, winner in enumerate(final_results['winners']):
@@ -239,7 +242,7 @@ class QuizManager:
             position = {
                 'x': random.randint(10, 90),  # Проценты от ширины
                 'y': random.randint(10, 90),  # Проценты от высоты
-                'size': random.randint(14, 24)  # Размер шрифта
+                'size': random.randint(10, 20)  # Размер шрифта
             }
 
             self.players[player_id] = {
@@ -305,6 +308,11 @@ class QuizManager:
 
 quiz_manager = QuizManager()
 
+# Добавьте этот роут для обслуживания статических файлов
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -361,7 +369,7 @@ def handle_answer(data):
 @socketio.on('start_quiz')
 def handle_start():
     quiz_manager.start_quiz()
-    print('🎬 Квиз начат администратором!')
+    print('🎬 Викторина начата администратором!')
 
 
 @socketio.on('force_next_question')
@@ -382,5 +390,3 @@ if __name__ == '__main__':
         debug=False,
         allow_unsafe_werkzeug=True
     )
-
-

@@ -155,23 +155,19 @@
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
-
-
-                // Умное определение длинного текста
-                const optionText = `${String.fromCharCode(65 + index)}. ${option}`;
-                if (optionText.length > 100) {
-                    button.classList.add('very-long-text');
-                } else if (optionText.length > 50) {
-                    button.classList.add('long-text');
-                }
-
-                button.textContent = optionText;
+                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
                 button.onclick = () => selectAnswer(index);
                 optionsContainer.appendChild(button);
             });
 
             showScreen('questionScreen');
+
+            // Вызываем функцию подгонки размера текста
+            setTimeout(adjustTextSize, 100);
         });
+
+        // Также вызываем при изменении размера окна
+        window.addEventListener('resize', adjustTextSize);
 
         socket.on('timer_update', function(data) {
             document.getElementById('timer').textContent = data.time_left;
@@ -211,6 +207,32 @@
             document.getElementById('answerStatus').textContent = '⏳ Ответ отправлен...';
             document.getElementById('answerStatus').style.color = '#f39c12';
         }
+
+        // Добавьте эту функцию в ваш JavaScript код
+        function adjustTextSize() {
+            const optionButtons = document.querySelectorAll('.option-btn');
+            const screenWidth = window.innerWidth;
+
+            optionButtons.forEach(button => {
+                const text = button.textContent;
+                const buttonWidth = button.offsetWidth;
+                const textWidth = text.length * 8; // Примерная ширина текста
+
+                // Если текст слишком длинный для кнопки, уменьшаем шрифт
+                if (textWidth > buttonWidth * 0.9) {
+                    if (screenWidth < 480) {
+                        button.style.fontSize = '0.7em';
+                        button.style.lineHeight = '1.1';
+                        button.style.padding = '6px 3px';
+                    } else if (screenWidth < 768) {
+                        button.style.fontSize = '0.8em';
+                        button.style.lineHeight = '1.15';
+                        button.style.padding = '8px 4px';
+                    }
+                }
+            });
+        }
+
 
         socket.on('answer_received', function(data) {
             console.log('✅ Ответ принят сервером');
@@ -270,7 +292,7 @@
 
                         <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                             <div style="font-size: 1.8em; font-weight: bold; margin-bottom: 10px;">${incorrect}</div>
-                            <div style="font-size: 1em;">❌ НЕПРАВИЛЬНЫХ</div>
+                            <div style="font-size: 0.8em;">❌ НЕПРАВИЛЬНЫХ</div>
                         </div>
 
 
@@ -281,7 +303,7 @@
 
                         <div style="text-align: center; padding: 12px; background: #9b59b6; color: white; border-radius: 8px;">
                             <div style="font-size: 1.8em; font-weight: bold;">${total}</div>
-                            <div style="font-size: 1em;">🎯 ВСЕГО ИГРОКОВ</div>
+                            <div style="font-size: 0.8em;">🎯 ВСЕГО ИГРОКОВ</div>
                         </div>
                     </div>
 

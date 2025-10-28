@@ -395,7 +395,7 @@
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
 
-            html += '<div class="results-table-container" style="max-height: 200px; overflow-y: auto;">';
+            html += '<div class="results-table-container" style="max-height: 200px; overflow: auto;">';
             html += '<table class="results-table"><tr><th>Место</th><th>Имя</th><th>Баллы</th><th>Правильные ответы</th></tr>';
 
             data.rankings.forEach((player, index) => {

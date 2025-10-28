@@ -258,6 +258,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
+    min-width: 400px; /* Минимальная ширина для принудительной горизонтальной прокрутки */
 }
 
 .results-table th, .results-table td {

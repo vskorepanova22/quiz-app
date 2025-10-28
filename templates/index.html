@@ -156,12 +156,16 @@
                 const button = document.createElement('button');
                 button.className = 'option-btn';
 
-                // Автоматически добавляем класс для длинного текста
-                if (option.length > 30) {
-                button.classList.add('long-text');
+
+                // Умное определение длинного текста
+                const optionText = `${String.fromCharCode(65 + index)}. ${option}`;
+                if (optionText.length > 80) {
+                    button.classList.add('very-long-text');
+                } else if (optionText.length > 40) {
+                    button.classList.add('long-text');
                 }
 
-                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                button.textContent = optionText;
                 button.onclick = () => selectAnswer(index);
                 optionsContainer.appendChild(button);
             });

@@ -397,7 +397,12 @@
 
             html += '<div style="max-height: 200px; overflow-y: auto; margin: 10px 0;">';
             html += '<table style="width: 100%; border-collapse: collapse;">';
-            html += '<table class="results-table"><tr><th>Место</th><th>Имя</th><th>Баллы</th><th>Правильные ответы</th></tr>';
+            html += '<tr style="background: #2ecc71; color: white;">';
+            html += '<th style="padding: 8px; text-align: center;">Место</th>';
+            html += '<th style="padding: 8px; text-align: left;">Имя</th>';
+            html += '<th style="padding: 8px; text-align: right;">Баллы</th>';
+            html += '<th style="padding: 8px; text-align: center;">Правильные ответы</th>';
+            html += '</tr>';
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';

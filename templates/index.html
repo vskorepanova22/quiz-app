@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Квиз от URZM-PROJECT</title>
     <link rel="stylesheet" href="/static/index.css">
 </head>
@@ -11,7 +11,7 @@
         <!-- Экран входа -->
         <div id="joinScreen" class="screen active">
             <h1>🎯 Добро пожаловать на Квиз от URZM-PROJECT! 🎯</h1>
-            <p>Введите ваше имя для участия:</p>
+            <p>Идентифицируйтесь для участия:</p>
             <input type="text" id="playerName" placeholder="Ваше имя" maxlength="20">
             <br>
             <button id="joinBtn" onclick="joinQuiz()">Присоединиться</button>
@@ -155,19 +155,19 @@
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
+
+                // Автоматически добавляем класс для длинного текста
+                if (option.length > 30) {
+                button.classList.add('long-text');
+                }
+
                 button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
                 button.onclick = () => selectAnswer(index);
                 optionsContainer.appendChild(button);
             });
 
             showScreen('questionScreen');
-
-            // Вызываем функцию подгонки размера текста
-            setTimeout(adjustTextSize, 100);
         });
-
-        // Также вызываем при изменении размера окна
-        window.addEventListener('resize', adjustTextSize);
 
         socket.on('timer_update', function(data) {
             document.getElementById('timer').textContent = data.time_left;
@@ -207,32 +207,6 @@
             document.getElementById('answerStatus').textContent = '⏳ Ответ отправлен...';
             document.getElementById('answerStatus').style.color = '#f39c12';
         }
-
-        // Добавьте эту функцию в ваш JavaScript код
-        function adjustTextSize() {
-            const optionButtons = document.querySelectorAll('.option-btn');
-            const screenWidth = window.innerWidth;
-
-            optionButtons.forEach(button => {
-                const text = button.textContent;
-                const buttonWidth = button.offsetWidth;
-                const textWidth = text.length * 8; // Примерная ширина текста
-
-                // Если текст слишком длинный для кнопки, уменьшаем шрифт
-                if (textWidth > buttonWidth * 0.9) {
-                    if (screenWidth < 480) {
-                        button.style.fontSize = '0.7em';
-                        button.style.lineHeight = '1.1';
-                        button.style.padding = '6px 3px';
-                    } else if (screenWidth < 768) {
-                        button.style.fontSize = '0.8em';
-                        button.style.lineHeight = '1.15';
-                        button.style.padding = '8px 4px';
-                    }
-                }
-            });
-        }
-
 
         socket.on('answer_received', function(data) {
             console.log('✅ Ответ принят сервером');
@@ -292,7 +266,7 @@
 
                         <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                             <div style="font-size: 1.8em; font-weight: bold; margin-bottom: 10px;">${incorrect}</div>
-                            <div style="font-size: 0.8em;">❌ НЕПРАВИЛЬНЫХ</div>
+                            <div style="font-size: 1em;">❌ НЕПРАВИЛЬНЫХ</div>
                         </div>
 
 
@@ -303,7 +277,7 @@
 
                         <div style="text-align: center; padding: 12px; background: #9b59b6; color: white; border-radius: 8px;">
                             <div style="font-size: 1.8em; font-weight: bold;">${total}</div>
-                            <div style="font-size: 0.8em;">🎯 ВСЕГО ИГРОКОВ</div>
+                            <div style="font-size: 1em;">🎯 ВСЕГО ИГРОКОВ</div>
                         </div>
                     </div>
 
@@ -420,7 +394,10 @@
 
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
+
+            html += '<div class="results-table-container">';
             html += '<table class="results-table"><tr><th>Место</th><th>Имя</th><th>Баллы</th><th>Правильные ответы</th></tr>';
+            html += '</div>';
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';

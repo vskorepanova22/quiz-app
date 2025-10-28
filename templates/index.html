@@ -397,7 +397,6 @@
 
             html += '<div class="results-table-container">';
             html += '<table class="results-table"><tr><th>Место</th><th>Имя</th><th>Баллы</th><th>Правильные ответы</th></tr>';
-            html += '</div>';
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';
@@ -410,6 +409,7 @@
                     </tr>`;
             });
             html += '</table>';
+            html += '</div>'; // Закрываем контейнер ПОСЛЕ таблицы "Полный рейтинг"
 
             rankingsDiv.innerHTML = html;
         });

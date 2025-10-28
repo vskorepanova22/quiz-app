@@ -118,7 +118,7 @@ body {
 #playerName {
     padding: 15px;
     font-size: 1.2em;
-    width: 280px;
+    width: 260px;
     margin: 10px;
     border: 2px solid #3498db;
     border-radius: 8px;
@@ -294,4 +294,9 @@ body {
     color: white;
     position: sticky;
     top: 0;
+}
+
+.winner {
+    background-color: #f1c40f !important;
+    font-weight: bold;
 }

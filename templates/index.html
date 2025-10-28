@@ -155,6 +155,12 @@
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
+
+                // Автоматически добавляем класс для длинного текста
+                if (option.length > 30) {
+                button.classList.add('long-text');
+                }
+
                 button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
                 button.onclick = () => selectAnswer(index);
                 optionsContainer.appendChild(button);

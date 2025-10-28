@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Квиз от URZM-PROJECT</title>
     <link rel="stylesheet" href="/static/index.css">
 </head>
@@ -159,9 +159,9 @@
 
                 // Умное определение длинного текста
                 const optionText = `${String.fromCharCode(65 + index)}. ${option}`;
-                if (optionText.length > 80) {
+                if (optionText.length > 100) {
                     button.classList.add('very-long-text');
-                } else if (optionText.length > 40) {
+                } else if (optionText.length > 50) {
                     button.classList.add('long-text');
                 }
 

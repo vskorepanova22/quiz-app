@@ -250,30 +250,27 @@
             const total = data.total_players || 0;
 
             let html = `
-                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
-                    <h3 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">📊 РЕЗУЛЬТАТЫ ВОПРОСА ${data.question_number}</h3>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;">${correct}</div>
-                            <div style="font-size: 1.1em;">✅ ПРАВИЛЬНЫХ</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 10px;">
+                        <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                            <div style="font-size: 1.8em; font-weight: bold; margin-bottom: 10px;">${correct}</div>
+                            <div style="font-size: 1em;">✅ ПРАВИЛЬНЫХ</div>
                         </div>
 
-                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;">${incorrect}</div>
-                            <div style="font-size: 1.1em;">❌ НЕПРАВИЛЬНЫХ</div>
+                        <div style="text-align: center; padding: 12px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                            <div style="font-size: 1.8em; font-weight: bold; margin-bottom: 10px;">${incorrect}</div>
+                            <div style="font-size: 1em;">❌ НЕПРАВИЛЬНЫХ</div>
                         </div>
                     </div>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
-                        <div style="text-align: center; padding: 15px; background: #3498db; color: white; border-radius: 10px;">
-                            <div style="font-size: 2em; font-weight: bold;">${answered}</div>
-                            <div style="font-size: 1.1em;">👥 ОТВЕТИЛО</div>
+                        <div style="text-align: center; padding: 12px; background: #3498db; color: white; border-radius: 8px;">
+                            <div style="font-size: 1.8em; font-weight: bold;">${answered}</div>
+                            <div style="font-size: 1em;">👥 ОТВЕТИЛО</div>
                         </div>
 
-                        <div style="text-align: center; padding: 15px; background: #9b59b6; color: white; border-radius: 10px;">
-                            <div style="font-size: 2em; font-weight: bold;">${total}</div>
-                            <div style="font-size: 1.1em;">🎯 ВСЕГО ИГРОКОВ</div>
+                        <div style="text-align: center; padding: 12px; background: #9b59b6; color: white; border-radius: 8px;">
+                            <div style="font-size: 1.8em; font-weight: bold;">${total}</div>
+                            <div style="font-size: 1em;">🎯 ВСЕГО ИГРОКОВ</div>
                         </div>
                     </div>
 
@@ -390,26 +387,19 @@
 
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
-            html += `<div style="max-height: 200px; overflow-y: auto; margin: 10px 0;">`;
-            html += `<table style="width: 100%; border-collapse: collapse;">`;
-            html += `<tr style="background: #2ecc71; color: white;">`;
-            html += `<th style="padding: 8px; text-align: center;">Место</th>`;
-            html += `<th style="padding: 8px; text-align: left;">Игрок</th>`;
-            html += `<th style="padding: 8px; text-align: right;">Баллы</th>`;
-            html += `<th style="padding: 8px; text-align: center;">Правильные</th>`;
-            html += `</tr>`;
+            html += '<table class="results-table"><tr><th style="width: auto">Место</th><th style="width: 50%">Имя</th><th style="width: auto">Баллы</th><th style="width: auto">Правильные ответы</th></tr>';
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';
-                html += `<tr style="background: ${bgColor}; color: ${textColor};">`;
-                html += `<td style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd; font-weight: bold;">${medal}</td>`;
-                tml += `<td style="padding: 8px; border-bottom: 1px solid #ddd;">${player.name}</td>`;
-                html += `<td style="padding: 8px; text-align: right; border-bottom: 1px solid #ddd; font-weight: bold;">${player.score}</td>`;
-                html += `<td style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd;">${player.correct_answers}</td>`;
-                html += `</tr>`;
+                html += `
+                    <tr class="${rowClass}">
+                        <td>${index + 1}</td>
+                        <td>${player.name}</td>
+                        <td>${player.score}</td>
+                        <td>${player.correct_answers}/${data.total_questions}</td>
+                    </tr>`;
             });
             html += '</table>';
-
 
             rankingsDiv.innerHTML = html;
         });

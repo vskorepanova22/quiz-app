@@ -156,6 +156,29 @@ body {
     border-radius: 8px;
 }
 
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.results-table th, .results-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.results-table th {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.winner {
+    background-color: #f1c40f !important;
+    font-weight: bold;
+}
+
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }

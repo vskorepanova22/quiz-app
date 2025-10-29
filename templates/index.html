@@ -421,7 +421,10 @@
     <script>
     // Дополнительный скрипт для гарантии мобильной адаптации
     function forceMobileLayout() {
-        if (window.innerWidth <= 768) {
+        const width = window.innerWidth;
+
+        // Только для настоящих мобильных устройств (до 480px)
+        if (width <= 480) {
             const optionsContainer = document.getElementById('optionsContainer');
             if (optionsContainer) {
                 optionsContainer.style.gridTemplateColumns = '1fr';
@@ -450,6 +453,38 @@
                 questionScreen.style.padding = '0 5px';
                 questionScreen.style.boxSizing = 'border-box';
             }
+        }
+        // Для планшетов (481px - 768px) - оставляем 2 колонки но уменьшаем отступы
+        else if (width <= 768) {
+            const optionsContainer = document.getElementById('optionsContainer');
+            if (optionsContainer) {
+                optionsContainer.style.gridTemplateColumns = '1fr 1fr';
+                optionsContainer.style.gap = '12px';
+            }
+
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.style.padding = '15px 10px';
+                btn.style.fontSize = '1em';
+            });
+        }
+        // Для ноутбуков и десктопов (больше 768px) - восстанавливаем оригинальные стили
+        else {
+            const optionsContainer = document.getElementById('optionsContainer');
+            if (optionsContainer) {
+                optionsContainer.style.gridTemplateColumns = '1fr 1fr';
+                optionsContainer.style.gap = '15px';
+                optionsContainer.style.display = 'grid';
+            }
+
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.style.width = '';
+                btn.style.margin = '';
+                btn.style.display = '';
+                btn.style.padding = '20px';
+                btn.style.fontSize = '1.2em';
+            });
         }
     }
 

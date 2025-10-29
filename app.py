@@ -176,7 +176,6 @@ class QuizManager:
         print(f"   Правильных ответов: {correct_answers_count}")
         print(f"   Неправильных ответов: {incorrect_answers_count}")
 
-
         # Печатаем топ игроков
         print("   Топ игроков на данный момент:")
         for i, player in enumerate(results['current_rankings'][:3]):

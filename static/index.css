@@ -214,28 +214,86 @@ body {
     border-left: 5px solid #e74c3c;
 }
 
-/* Медиа-запросы для мобильных устройств */
+/* Исправления для мобильных устройств */
 @media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+        width: auto;
+        max-width: none;
+        box-sizing: border-box;
+    }
+
     .options {
-        grid-template-columns: 1fr !important; /* Одна колонка вместо двух */
-        gap: 10px;
+        grid-template-columns: 1fr !important;
+        gap: 8px;
+        margin: 15px 0;
     }
 
     .option-btn {
-        padding: 15px 10px;
-        font-size: 1em;
+        padding: 12px 8px;
+        font-size: 0.95em;
         min-height: 50px;
+        white-space: normal;
+        word-wrap: break-word;
+        word-break: break-word;
+        line-height: 1.3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .container {
-        padding: 15px;
+    .question {
+        font-size: 1.1em;
+        line-height: 1.3;
+        margin: 15px 0;
+    }
+
+    #questionScreen {
+        overflow: hidden;
     }
 }
 
+/* Для очень маленьких экранов */
 @media (max-width: 480px) {
+    body {
+        padding: 5px;
+        margin: 0;
+    }
+
+    .container {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 10px;
+    }
+
     .option-btn {
-        padding: 12px 8px;
+        padding: 10px 6px;
         font-size: 0.9em;
         min-height: 45px;
     }
+
+    .timer {
+        font-size: 2.5em;
+        margin: 10px 0;
+    }
+
+    .question-info {
+        font-size: 0.9em;
+        padding: 8px;
+    }
+}
+
+/* Гарантия что контент не выходит за границы */
+.screen {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+#optionsContainer {
+    box-sizing: border-box;
+    max-width: 100%;
 }

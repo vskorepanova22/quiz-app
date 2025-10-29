@@ -155,10 +155,24 @@
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
-                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+
+                // Создаем span для лучшего контроля текста
+                const optionText = document.createElement('span');
+                optionText.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
+                optionText.style.display = 'block';
+                optionText.style.width = '100%';
+
+                button.appendChild(optionText);
                 button.onclick = () => selectAnswer(index);
+
                 optionsContainer.appendChild(button);
             });
+
+             // Принудительное применение стилей для мобильных
+             if (window.innerWidth <= 768) {
+                 optionsContainer.style.gridTemplateColumns = '1fr';
+             }
+
 
             showScreen('questionScreen');
         });
@@ -411,6 +425,44 @@
             document.getElementById('playerName').value = randomName + '_' + Math.floor(Math.random() * 1000);
             console.log('Страница загружена, готов к работе');
         });
+    </script>
+    <script>
+    // Дополнительный скрипт для гарантии мобильной адаптации
+    function forceMobileLayout() {
+        if (window.innerWidth <= 768) {
+            const optionsContainer = document.getElementById('optionsContainer');
+            if (optionsContainer) {
+                optionsContainer.style.gridTemplateColumns = '1fr';
+                optionsContainer.style.display = 'block';
+            }
+
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.style.width = '100%';
+                btn.style.margin = '5px 0';
+                btn.style.display = 'block';
+            });
+
+            // Гарантируем что контейнер не выходит за экран
+            const container = document.querySelector('.container');
+            if (container) {
+                container.style.maxWidth = '100%';
+                container.style.margin = '10px';
+                container.style.boxSizing = 'border-box';
+                container.style.overflow = 'hidden';
+            }
+        }
+    }
+
+    // Применяем при загрузке и изменении размера
+    window.addEventListener('load', forceMobileLayout);
+    window.addEventListener('resize', forceMobileLayout);
+    window.addEventListener('orientationchange', forceMobileLayout);
+
+    // Также применяем при смене экранов
+    socket.on('new_question', function() {
+        setTimeout(forceMobileLayout, 100);
+    });
     </script>
 </body>
 </html>

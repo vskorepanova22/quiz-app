@@ -390,8 +390,8 @@
 
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
-            html += '<div style="max-height: 400px; overflow-y: auto; margin: 10px 0;">';
-            html += '<table style="width: 100%; border-collapse: collapse;">';
+            html += '<div style="max-height: 400px; overflow-y: auto; overflow-x: auto; margin: 10px 0;">';
+            html += '<table style="width: 100%; border-collapse: collapse; min-width: 600px;">';
             html += '<tr style="background: #0000CD; color: white;">';
             html += '<th style="padding: 8px; text-align: center;">Место</th>';
             html += '<th style="padding: 8px; text-align: left;">Игрок</th>';

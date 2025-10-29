@@ -387,7 +387,7 @@
 
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
-            html += '<table class="results-table"><tr><th style="width: auto">Место</th><th style="width: 50%">Имя</th><th style="width: auto">Баллы</th><th style="width: auto">Правильные ответы</th></tr>';
+            html += '<table class="results-table"><tr><th style="width: auto">Место</th><th style="width: auto">Имя</th><th style="width: auto">Баллы</th><th style="width: auto">Правильные ответы</th></tr>';
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';

@@ -249,16 +249,18 @@ body {
 .results-table-container {
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: auto; /* для горизонтальной прокрутки */
     margin: 20px 0;
     border: 1px solid #ddd;
     border-radius: 8px;
+    -webkit-overflow-scrolling: touch; /* плавный скролл на мобильных */
 }
 
 .results-table {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
-    min-width: 400px; /* Минимальная ширина для принудительной горизонтальной прокрутки */
+    min-width: 200px; /* Минимальная ширина для принудительной горизонтальной прокрутки */
 }
 
 .results-table th, .results-table td {

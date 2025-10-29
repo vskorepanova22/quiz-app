@@ -288,9 +288,8 @@
             // Отображаем детали ответов, если есть
             if (data.answer_details && data.answer_details.length > 0) {
                 html += `<h3>📋 Детали ответов:</h3>`;
-                html += `<div style="max-height: 200px; overflow-y: auto; margin: 10px 0;">`;
-                html += `<div style="overflow-x: auto;">`;
-                html += `<table style="width: 100%; border-collapse: collapse; min-width: 500px;">`">`;
+                html += `<div style="max-height: 100px; overflow-y: auto; margin: 10px 0;">`;
+                html += `<table style="width: 100%; border-collapse: collapse;">`;
                 html += `<tr style="background: #3498db; color: white;">`;
                 html += `<th style="padding: 8px; text-align: left;">Игрок</th>`;
                 html += `<th style="padding: 8px; text-align: center;">Результат</th>`;
@@ -391,8 +390,8 @@
 
             html += `<p style="font-size: 1.2em;">Всего игроков: <strong>${data.total_players}</strong></p>`;
             html += '<h3>📈 Полный рейтинг:</h3>';
-            html += '<div style="max-height: 400px; overflow-y: auto; overflow-x: auto; margin: 10px 0;">';
-            html += '<table style="width: 100%; border-collapse: collapse; min-width: 600px;">';
+            html += '<div style="max-height: 200px; overflow-y: auto; margin: 10px 0;">';
+            html += '<table style="width: 100%; border-collapse: collapse;
             html += '<tr style="background: #0000CD; color: white;">';
             html += '<th style="padding: 8px; text-align: center;">Место</th>';
             html += '<th style="padding: 8px; text-align: left;">Игрок</th>';
@@ -411,6 +410,8 @@
                     </tr>`;
             });
             html += '</table>';
+            html += '</div>';
+            }
 
             rankingsDiv.innerHTML = html;
         });

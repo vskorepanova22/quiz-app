@@ -401,13 +401,12 @@
 
             data.rankings.forEach((player, index) => {
                 const rowClass = index < 3 ? 'winner' : '';
-                html += `
-                    <tr class="${rowClass}">
-                        <td>${index + 1}</td>
-                        <td>${player.name}</td>
-                        <td>${player.score}</td>
-                        <td>${player.correct_answers}/${data.total_questions}</td>
-                    </tr>`;
+                html += `<tr style="background: ${bgColor}; color: ${textColor};">`;
+                html += `<td style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd; font-weight: bold;">${medal}</td>`;
+                tml += `<td style="padding: 8px; border-bottom: 1px solid #ddd;">${player.name}</td>`;
+                html += `<td style="padding: 8px; text-align: right; border-bottom: 1px solid #ddd; font-weight: bold;">${player.score}</td>`;
+                html += `<td style="padding: 8px; text-align: center; border-bottom: 1px solid #ddd;">${player.correct_answers}</td>`;
+                html += `</tr>`;
             });
             html += '</table>';
 

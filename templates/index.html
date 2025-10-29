@@ -289,7 +289,8 @@
             if (data.answer_details && data.answer_details.length > 0) {
                 html += `<h3>📋 Детали ответов:</h3>`;
                 html += `<div style="max-height: 200px; overflow-y: auto; margin: 10px 0;">`;
-                html += `<table style="width: 100%; border-collapse: collapse;">`;
+                html += `<div style="overflow-x: auto;">`;
+                html += `<table style="width: 100%; border-collapse: collapse; min-width: 500px;">`">`;
                 html += `<tr style="background: #3498db; color: white;">`;
                 html += `<th style="padding: 8px; text-align: left;">Игрок</th>`;
                 html += `<th style="padding: 8px; text-align: center;">Результат</th>`;

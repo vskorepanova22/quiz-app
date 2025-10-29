@@ -214,86 +214,117 @@ body {
     border-left: 5px solid #e74c3c;
 }
 
-/* Исправления для мобильных устройств */
+/* ЭКСТРЕННЫЕ ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
 @media (max-width: 768px) {
+    body {
+        padding: 5px !important;
+        margin: 0 !important;
+        overflow-x: hidden !important;
+    }
+
     .container {
-        padding: 15px;
-        margin: 10px;
-        width: auto;
-        max-width: none;
-        box-sizing: border-box;
+        padding: 10px !important;
+        margin: 5px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-radius: 10px !important;
     }
 
     .options {
+        display: block !important;
         grid-template-columns: 1fr !important;
-        gap: 8px;
-        margin: 15px 0;
+        gap: 8px !important;
+        margin: 10px 0 !important;
+        width: 100% !important;
     }
 
     .option-btn {
-        padding: 12px 8px;
-        font-size: 0.95em;
-        min-height: 50px;
-        white-space: normal;
-        word-wrap: break-word;
-        word-break: break-word;
-        line-height: 1.3;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
+        width: 100% !important;
+        margin: 6px 0 !important;
+        padding: 12px 8px !important;
+        font-size: 0.9em !important;
+        min-height: 50px !important;
+        display: block !important;
+        box-sizing: border-box !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        word-break: break-word !important;
+        line-height: 1.3 !important;
+        text-align: center !important;
+        border: 2px solid #3498db !important;
+    }
+
+    #optionsContainer {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .question {
-        font-size: 1.1em;
-        line-height: 1.3;
-        margin: 15px 0;
+        font-size: 1.1em !important;
+        line-height: 1.3 !important;
+        margin: 15px 0 !important;
+        padding: 0 5px !important;
+        word-wrap: break-word !important;
+    }
+
+    .timer {
+        font-size: 2.5em !important;
+        margin: 10px 0 !important;
+    }
+
+    .question-info {
+        font-size: 0.9em !important;
+        padding: 8px !important;
+        margin: 10px 0 !important;
     }
 
     #questionScreen {
-        overflow: hidden;
+        overflow: hidden !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 5px !important;
     }
 }
 
 /* Для очень маленьких экранов */
 @media (max-width: 480px) {
     body {
-        padding: 5px;
-        margin: 0;
+        padding: 2px !important;
     }
 
     .container {
-        padding: 10px;
-        margin: 5px;
-        border-radius: 10px;
+        padding: 8px !important;
+        margin: 2px !important;
     }
 
     .option-btn {
-        padding: 10px 6px;
-        font-size: 0.9em;
-        min-height: 45px;
+        padding: 10px 6px !important;
+        font-size: 0.85em !important;
+        min-height: 45px !important;
+        margin: 4px 0 !important;
+    }
+
+    .question {
+        font-size: 1em !important;
+        margin: 10px 0 !important;
     }
 
     .timer {
-        font-size: 2.5em;
-        margin: 10px 0;
-    }
-
-    .question-info {
-        font-size: 0.9em;
-        padding: 8px;
+        font-size: 2em !important;
     }
 }
 
-/* Гарантия что контент не выходит за границы */
-.screen {
-    box-sizing: border-box;
-    max-width: 100%;
+/* ГАРАНТИЯ ЧТО НИЧТО НЕ ВЫХОДИТ ЗА ГРАНИЦЫ */
+* {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-#optionsContainer {
-    box-sizing: border-box;
-    max-width: 100%;
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    position: relative !important;
 }

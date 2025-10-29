@@ -155,16 +155,8 @@
             data.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.className = 'option-btn';
-
-                // Создаем span для лучшего контроля текста
-                const optionText = document.createElement('span');
-                optionText.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
-                optionText.style.display = 'block';
-                optionText.style.width = '100%';
-
-                button.appendChild(optionText);
+                button.textContent = `${String.fromCharCode(65 + index)}. ${option}`;
                 button.onclick = () => selectAnswer(index);
-
                 optionsContainer.appendChild(button);
             });
 
@@ -434,22 +426,29 @@
             if (optionsContainer) {
                 optionsContainer.style.gridTemplateColumns = '1fr';
                 optionsContainer.style.display = 'block';
+                optionsContainer.style.width = '100%';
+                optionsContainer.style.maxWidth = '100%';
+                optionsContainer.style.margin = '0';
+                optionsContainer.style.padding = '0';
             }
 
             const optionButtons = document.querySelectorAll('.option-btn');
             optionButtons.forEach(btn => {
                 btn.style.width = '100%';
-                btn.style.margin = '5px 0';
+                btn.style.margin = '6px 0';
                 btn.style.display = 'block';
+                btn.style.maxWidth = '100%';
+                btn.style.boxSizing = 'border-box';
             });
 
             // Гарантируем что контейнер не выходит за экран
-            const container = document.querySelector('.container');
-            if (container) {
-                container.style.maxWidth = '100%';
-                container.style.margin = '10px';
-                container.style.boxSizing = 'border-box';
-                container.style.overflow = 'hidden';
+            const questionScreen = document.getElementById('questionScreen');
+            if (questionScreen) {
+                questionScreen.style.overflow = 'hidden';
+                questionScreen.style.width = '100%';
+                questionScreen.style.maxWidth = '100%';
+                questionScreen.style.padding = '0 5px';
+                questionScreen.style.boxSizing = 'border-box';
             }
         }
     }
@@ -461,7 +460,9 @@
 
     // Также применяем при смене экранов
     socket.on('new_question', function() {
-        setTimeout(forceMobileLayout, 100);
+        setTimeout(forceMobileLayout, 50);
+        // Дополнительная проверка через 200ms на всякий случай
+        setTimeout(forceMobileLayout, 200);
     });
     </script>
 </body>

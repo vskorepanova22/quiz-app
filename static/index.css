@@ -9,6 +9,13 @@ body {
 }
 
 .container {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
     /* ДОБАВЬТЕ ЭТУ СТРОКУ */
     max-width: 95vw; /* Ограничение по ширине экрана */
     margin: 0 auto;
@@ -136,6 +143,33 @@ body {
     outline: none;
 }
 
+#playerName::placeholder {
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Стили для отображения ID игрока */
+#playerIdDisplay {
+    font-weight: bold;
+    color: #e74c3c;
+    background: #f8f9fa;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#finalNameDisplay {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+/* Подсказка для пользователя */
+.player-id-hint {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
 #joinBtn {
     padding: 15px 30px;
     font-size: 1.2em;
@@ -146,11 +180,24 @@ body {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: bold;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 #joinBtn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#joinBtn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    opacity: 1;
+}
+
+#joinBtn:not(:disabled) {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .question-info {

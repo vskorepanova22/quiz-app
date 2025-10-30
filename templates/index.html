@@ -13,8 +13,27 @@
             <h1>🎯 Добро пожаловать на Квиз от URZM-PROJECT! 🎯</h1>
             <p>Введите ваше имя для участия:</p>
             <input type="text" id="playerName" placeholder="Ваше имя" maxlength="20">
+
+            <div style="margin: 15px 0; padding: 10px; background: #f8f9fa; border-radius: 8px;">
+                <div style="margin-bottom: 8px;">
+                    <strong>Ваш идентификатор:</strong>
+                    <span id="playerIdDisplay" style="color: #e74c3c; font-weight: bold;">-</span>
+                </div>
+                <div id="namePreviewSection" style="display: none;">
+                    <strong>Имя для участия:</strong>
+                    <span id="finalNameDisplay" style="color: #2ecc71; font-weight: bold;"></span>
+                </div>
+            </div>
+
+            <div class="player-id-hint">
+                💡 Ваш ID генерируется автоматически и обеспечивает уникальность вашего имени в системе
+            </div>
+
             <br>
-            <button id="joinBtn" onclick="joinQuiz()">Присоединиться</button>
+            <button id="joinBtn" onclick="joinQuiz()" disabled>Присоединиться</button>
+            <div id="joinError" style="color: #e74c3c; margin-top: 10px; display: none;">
+                ❌ Пожалуйста, введите ваше имя для участия
+            </div>
         </div>
 
         <!-- Ожидание начала с облаком имен -->
@@ -66,6 +85,7 @@
         let currentQuestionId = null;
         let hasAnswered = false;
         let playerName = '';
+        let playerId = '';
 
         function showScreen(screenId) {
             console.log('Переход на экран:', screenId);
@@ -75,13 +95,86 @@
             document.getElementById(screenId).classList.add('active');
         }
 
-        function joinQuiz() {
-            playerName = document.getElementById('playerName').value.trim();
-            if (playerName) {
-                console.log('Присоединение к викторине как:', playerName);
-                socket.emit('join_quiz', {name: playerName});
+        // Генерация уникального ID
+        function generatePlayerId() {
+            // Генерируем случайный 4-значный номер
+            const randomId = Math.floor(1000 + Math.random() * 9000);
+            return `ID${randomId}`;
+        }
+
+// Инициализация при загрузке страницы
+function initializePlayer() {
+    playerId = generatePlayerId();
+    document.getElementById('playerIdDisplay').textContent = playerId;
+
+    // Настройка обработчиков событий
+    const nameInput = document.getElementById('playerName');
+    const joinBtn = document.getElementById('joinBtn');
+    const namePreviewSection = document.getElementById('namePreviewSection');
+    const finalNameDisplay = document.getElementById('finalNameDisplay');
+    const joinError = document.getElementById('joinError');
+
+    // Обработчик ввода имени
+    nameInput.addEventListener('input', function() {
+        playerName = this.value.trim();
+
+        if (playerName) {
+            // Показываем превью имени
+            finalNameDisplay.textContent = `${playerName} (${playerId})`;
+            namePreviewSection.style.display = 'block';
+
+            // Активируем кнопку
+            joinBtn.disabled = false;
+            joinBtn.style.opacity = '1';
+            joinBtn.style.cursor = 'pointer';
+
+            // Скрываем ошибку
+            joinError.style.display = 'none';
+        } else {
+            // Скрываем превью и деактивируем кнопку
+            namePreviewSection.style.display = 'none';
+            joinBtn.disabled = true;
+            joinBtn.style.opacity = '0.6';
+            joinBtn.style.cursor = 'not-allowed';
+        }
+
+    });
+
+    // Авто-фокус на поле ввода
+    nameInput.focus();
+}
+
+        // Обновление отображаемого имени с ID
+        function updateFinalNameDisplay() {
+            const nameInput = document.getElementById('playerName');
+            const name = nameInput.value.trim();
+            const finalNameDisplay = document.getElementById('finalNameDisplay');
+
+            if (name) {
+                finalNameDisplay.textContent = `${name} (${playerId})`;
             } else {
-                alert('Пожалуйста, введите ваше имя');
+                finalNameDisplay.textContent = '-';
+            }
+        }
+
+        // Функция присоединения к квизу
+        function joinQuiz() {
+            const nameInput = document.getElementById('playerName');
+            playerName = nameInput.value.trim();
+
+            if (playerName) {
+                // Создаем финальное имя с ID
+                const finalName = `${playerName} (${playerId})`;
+
+                console.log('Присоединение к викторине как:', finalName);
+                socket.emit('join_quiz', {
+                    name: finalName,
+                    original_name: playerName,
+                    player_id: playerId
+                });
+            } else {
+                // Показываем ошибку
+                document.getElementById('joinError').style.display = 'block';
             }
         }
 
@@ -119,6 +212,13 @@
             console.log('✅ Успешно присоединились как:', data.name);
             document.getElementById('playerDisplayName').textContent = data.name;
             showScreen('waitScreen');
+
+            // Сохраняем информацию о игроке в localStorage на всякий случай
+            localStorage.setItem('playerInfo', JSON.stringify({
+                name: data.name,
+                id: playerId,
+                originalName: playerName
+            }));
         });
 
         socket.on('waiting_for_start', function() {
@@ -410,12 +510,11 @@
             rankingsDiv.innerHTML = html;
         });
 
-        // Авто-заполнение для тестирования
+         // Обработчик ввода имени
         document.addEventListener('DOMContentLoaded', function() {
-            const names = ['Введите Ваше имя', 'Введите Ваше имя', 'Введите Ваше имя', 'Введите Ваше имя'];
-            const randomName = names[Math.floor(Math.random() * names.length)];
-            document.getElementById('playerName').value = randomName + '_' + Math.floor(Math.random() * 1000);
-            console.log('Страница загружена, готов к работе');
+            initializePlayer();
+
+            console.log('Страница загружена, готов к работе. Ваш ID:', playerId);
         });
     </script>
     <script>

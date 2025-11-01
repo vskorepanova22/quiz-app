@@ -432,11 +432,15 @@ def handle_force_next():
 def download_results():
     """Скачать последние результаты"""
     try:
-        # Создаем CSV в памяти
+        # Создаем CSV в памяти с UTF-8 BOM для Excel
         output = io.StringIO()
+
+        # Добавляем BOM для корректного отображения в Excel
+        output.write('\ufeff')
+
         writer = csv.writer(output)
 
-        # Заголовки
+        # Заголовки на русском
         writer.writerow(['Место', 'Имя', 'Баллы', 'Правильные ответы'])
 
         # Получаем текущий рейтинг игроков
@@ -451,9 +455,9 @@ def download_results():
                 player.get('correct_answers', 0)
             ])
 
-        # Конвертируем в BytesIO для отправки
+        # Конвертируем в BytesIO с UTF-8 кодировкой
         mem = io.BytesIO()
-        mem.write(output.getvalue().encode('utf-8'))
+        mem.write(output.getvalue().encode('utf-8-sig'))  # Используем utf-8-sig для BOM
         mem.seek(0)
 
         # Генерируем имя файла с датой
@@ -464,7 +468,7 @@ def download_results():
             mem,
             as_attachment=True,
             download_name=filename,
-            mimetype='text/csv'
+            mimetype='text/csv; charset=utf-8'  # Явно указываем кодировку
         )
 
     except Exception as e:

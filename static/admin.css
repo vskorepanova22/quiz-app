@@ -66,3 +66,23 @@ button {
     font-weight: bold;
     color: #3498db;
 }
+
+.btn-download {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn-download:hover {
+    background-color: #219653;
+    text-decoration: none;
+    color: white;
+}

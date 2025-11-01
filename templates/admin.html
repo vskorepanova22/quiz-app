@@ -12,11 +12,14 @@
         <h1>🎮 Панель управления Квизом</h1>
         <button id="startQuiz" onclick="startQuiz()">🚀 Начать Квиз</button>
         <button id="nextQuestion" onclick="forceNextQuestion()">⏭️ Следующий вопрос</button>
+        <!-- ↓↓↓ ДОБАВЬТЕ ЭТУ КНОПКУ ↓↓↓ -->
+        <a href="/download-results" class="btn-download" download>📥 Скачать результаты (CSV)</a>
     </div>
 
     <div class="stats">
         <h3>📊 Статус системы:</h3>
         <p>Статус подключения: <span id="connectionStatus" class="status-connected">Подключено</span></p>
+
         <p>Статус Квиза: <span id="quizStatus">Ожидание игроков</span></p>
         <p>Подключенные игроки: <span id="playerCount" class="player-count">0</span></p>
         <p>Текущий вопрос: <span id="currentQuestion">-</span></p>

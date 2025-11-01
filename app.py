@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, send_file
 from flask_socketio import SocketIO, emit
 import time
 import threading
 import os
 import random
+import csv
+import io
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'quiz_secret_key_2024')
@@ -230,6 +234,9 @@ class QuizManager:
 
         socketio.emit('quiz_finished', final_results)
 
+        # ↓↓↓ ДОБАВЬТЕ ЭТУ СТРОКУ ↓↓↓
+        on_quiz_finished(final_results)
+
         print("🎉 Викторина завершена!")
         print(f"📈 Участвовало игроков: {len(self.players)}")
         print("🏆 Победители:")
@@ -306,6 +313,47 @@ class QuizManager:
             }, room=player_id)
 
 
+def save_results_to_csv(quiz_results):
+    """Сохраняет результаты в CSV файл"""
+    try:
+        # Создаем папку results если её нет
+        os.makedirs('results', exist_ok=True)
+
+        # Генерируем имя файла с датой
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"results/quiz_results_{timestamp}.csv"
+
+        with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['Место', 'Имя', 'Баллы', 'Правильные ответы']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            for i, player in enumerate(quiz_results['rankings']):
+                writer.writerow({
+                    'Место': i + 1,
+                    'Имя': player['name'],
+                    'Баллы': player['score'],
+                    'Правильные ответы': player.get('correct_answers', 0)
+                })
+
+        print(f"✅ Результаты сохранены в: {filename}")
+        return True
+
+    except Exception as e:
+        print(f"❌ Ошибка сохранения: {e}")
+        return False
+
+
+def on_quiz_finished(quiz_results):
+    """Вызывается когда квиз завершен"""
+    success = save_results_to_csv(quiz_results)
+
+    if success:
+        print("✅ Результаты успешно сохранены в CSV файл")
+    else:
+        print("❌ Не удалось сохранить результаты")
+
+
 quiz_manager = QuizManager()
 
 # Добавьте этот роут для обслуживания статических файлов
@@ -379,6 +427,48 @@ def handle_force_next():
         quiz_manager.timer_active = False
         threading.Timer(0.1, quiz_manager.end_question).start()
 
+
+@app.route('/download-results')
+def download_results():
+    """Скачать последние результаты"""
+    try:
+        # Создаем CSV в памяти
+        output = io.StringIO()
+        writer = csv.writer(output)
+
+        # Заголовки
+        writer.writerow(['Место', 'Имя', 'Баллы', 'Правильные ответы'])
+
+        # Получаем текущий рейтинг игроков
+        rankings = quiz_manager.get_current_rankings()
+
+        # Заполняем данными игроков
+        for i, player in enumerate(rankings):
+            writer.writerow([
+                i + 1,
+                player['name'],
+                player['score'],
+                player.get('correct_answers', 0)
+            ])
+
+        # Конвертируем в BytesIO для отправки
+        mem = io.BytesIO()
+        mem.write(output.getvalue().encode('utf-8'))
+        mem.seek(0)
+
+        # Генерируем имя файла с датой
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M")
+        filename = f'quiz_results_{timestamp}.csv'
+
+        return send_file(
+            mem,
+            as_attachment=True,
+            download_name=filename,
+            mimetype='text/csv'
+        )
+
+    except Exception as e:
+        return f"Ошибка при создании файла: {e}", 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
